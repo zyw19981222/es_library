@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 27/05/2019 23:53:56
+ Date: 28/05/2019 09:11:09
 */
 
 SET NAMES utf8mb4;
@@ -70,7 +70,7 @@ CREATE TABLE `borrow`  (
   `rId` int(11) NOT NULL,
   `bId` int(11) NOT NULL,
   `bEachId` int(11) NOT NULL,
-  `borrowDate` int(11) NOT NULL DEFAULT CURRENT_TIMESTAMP(11),
+  `borrowDate` int(11) NOT NULL,
   `returnDate` int(11) NULL DEFAULT NULL,
   `renewal` int(11) NULL DEFAULT 0,
   PRIMARY KEY (`borrowId`) USING BTREE,
@@ -78,9 +78,9 @@ CREATE TABLE `borrow`  (
   INDEX `reader`(`rId`) USING BTREE,
   INDEX `book`(`bId`) USING BTREE,
   INDEX `eachbook`(`bEachId`) USING BTREE,
-  CONSTRAINT `reader` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `book` FOREIGN KEY (`bId`) REFERENCES `book` (`bId`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT `eachbook` FOREIGN KEY (`bEachId`) REFERENCES `book` (`bEachId`) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT `eachbook` FOREIGN KEY (`bEachId`) REFERENCES `book` (`bEachId`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `reader` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -97,8 +97,8 @@ CREATE TABLE `fine`  (
   `fDate` int(11) NOT NULL,
   PRIMARY KEY (`fId`) USING BTREE,
   INDEX `book_fine`(`bId`) USING BTREE,
-  INDEX `reader_fine`(`rId`) USING BTREE,
   INDEX `eachbook_fine`(`bEachId`) USING BTREE,
+  INDEX `reader_fine`(`rId`) USING BTREE,
   CONSTRAINT `book_fine` FOREIGN KEY (`bId`) REFERENCES `book` (`bId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `eachbook_fine` FOREIGN KEY (`bEachId`) REFERENCES `book` (`bEachId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `reader_fine` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE
