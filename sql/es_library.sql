@@ -11,7 +11,7 @@
  Target Server Version : 80016
  File Encoding         : 65001
 
- Date: 28/05/2019 09:11:09
+ Date: 28/05/2019 23:58:00
 */
 
 SET NAMES utf8mb4;
@@ -23,9 +23,11 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin`  (
   `aId` int(11) NOT NULL AUTO_INCREMENT,
+  `aUsername` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `aPassword` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`aId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  `aToken` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`aId`, `aUsername`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for appointment
@@ -44,7 +46,7 @@ CREATE TABLE `appointment`  (
   INDEX `book_`(`bId`) USING BTREE,
   CONSTRAINT `book_` FOREIGN KEY (`bId`) REFERENCES `book` (`bId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `reader_` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for book
@@ -59,7 +61,7 @@ CREATE TABLE `book`  (
   PRIMARY KEY (`bId`, `bEachId`) USING BTREE,
   INDEX `bId`(`bId`) USING BTREE,
   INDEX `bEachId`(`bEachId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for borrow
@@ -81,7 +83,7 @@ CREATE TABLE `borrow`  (
   CONSTRAINT `book` FOREIGN KEY (`bId`) REFERENCES `book` (`bId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `eachbook` FOREIGN KEY (`bEachId`) REFERENCES `book` (`bEachId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `reader` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for fine
@@ -102,7 +104,7 @@ CREATE TABLE `fine`  (
   CONSTRAINT `book_fine` FOREIGN KEY (`bId`) REFERENCES `book` (`bId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `eachbook_fine` FOREIGN KEY (`bEachId`) REFERENCES `book` (`bEachId`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `reader_fine` FOREIGN KEY (`rId`) REFERENCES `reader` (`rId`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for reader
@@ -110,21 +112,23 @@ CREATE TABLE `fine`  (
 DROP TABLE IF EXISTS `reader`;
 CREATE TABLE `reader`  (
   `rId` int(11) NOT NULL AUTO_INCREMENT,
+  `rUsername` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `rName` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `rPassword` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `rDept` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `rIdcard` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `rPhone` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `rMail` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`rId`) USING BTREE,
+  `rToken` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`rId`, `rUsername`) USING BTREE,
   UNIQUE INDEX `rID`(`rId`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- View structure for bookstatus
 -- ----------------------------
 DROP VIEW IF EXISTS `bookstatus`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `bookstatus` AS select `book`.`bId` AS `bId`,count(`book`.`bId`) AS `totalNum`,cast((((count(`book`.`bId`) - count(`borrow`.`bId`)) - count(`appointment`.`bId`)) + 0.1) as unsigned) AS `availableNum` from ((`book` join `borrow`) join `appointment`) where ((`book`.`bId` = `borrow`.`bId`) and (`book`.`bId` = `appointment`.`bId`) and isnull(`borrow`.`returnDate`) and (`appointment`.`borrowed` = 0));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `bookstatus` AS select `book`.`bId` AS `bId`,count(`book`.`bId`) AS `totalNum`,cast((((count(`book`.`bId`) - count(`borrow`.`bId`)) - count(`appointment`.`bId`)) + 0.1) as unsigned) AS `availableNum` from ((`book` join `borrow`) join `appointment`) where ((`book`.`bId` = `borrow`.`bId`) and (`book`.`bId` = `appointment`.`bId`) and isnull(`borrow`.`returnDate`) and (`appointment`.`borrowed` = 0)) group by `book`.`bId`;
 
 -- ----------------------------
 -- View structure for borrowing
