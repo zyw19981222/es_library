@@ -10,8 +10,8 @@
     <script src="../../res/swal2/sweetalert2.all.js"></script>
     <script src="../../res/bootstrap/js/bootstrap.js"></script>
     <script src="../../res/jquery/jquery.cookie.js"></script>
-    <script src="../res/node_modules/iview/dist/iview.js"></script>
-    <link rel="stylesheet" href="../res/node_modules/iview/dist/styles/iview.css">
+    <!-- <script src="../res/node_modules/iview/dist/iview.js"></script>
+    <link rel="stylesheet" href="../res/node_modules/iview/dist/styles/iview.css"> -->
     <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../../res/font-awesome-4.7.0/css/font-awesome.css">
 </head>
@@ -40,10 +40,9 @@
                 <div class="card-body">
                     <input type="text" class="form-control" placeholder="证件号" v-model="rId">
                     <input type="text" class="form-control" placeholder="书本编号" v-model="bEachId">
-                    <button class="btn btn-danger btn-sm flex-fill" @click='borrow()'><i
+                    <button class="btn btn-danger btn-sm flex-fill" @click='returnBook()'><i
                             class="fa fa-user-times"></i>还书</button>
-                    <button class="btn btn-danger btn-sm flex-fill" @click='return()'><i
-                            class="fa fa-user-times"></i>借书</button>
+                   
                 </div>
             </div>
         </div>
@@ -56,44 +55,52 @@
         el: '#main',
         // 定义属性，并设置初始值
         data: {
-            info: [],
+            //cookie
+            uid: '',
+            //b&w book
             bEachId: '',
             rId: '',
             fine: '',
         },
 
 
-        // created() {
-        //     var that = this;
-        //     $.post("../../php/admin/fetchUncensored.php", {}).done((data) => {
-        //         data = JSON.parse(data);
-        //         data.forEach(user => {
-        //             that.info.push(user);
-        //         });
-        //     })
+        created() {
+            
 
-        // },
+        },
 
         // 点击菜单使用的函数
         methods: {
             //借书
-            borrow: function (rId, bId) {
-                $.post("../../books/borrow.php", {
+            borrowBook: function () {
+                $.post("../../api/books/borrow.php", {
                     rId: this.rId,
                     bEachId: this.bEachId,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    
+                    if (data.validity == 1) {
+                        swl({
+                            title: "还书成功！",
+                            text: '欠费'+this.find,
+                            type: "success",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        })
+                        rId = "";
+                        bEachId = "";
+                    }
+                    else {
+
+                    }
                 })
             },
             //还书
-            return: function (rId, bId) {
-                $.post("../../books/return.php", {
+            returnBook: function () {
+                $.post("../../api/books/return.php", {
                     rId: this.rId,
                     bEachId: this.bEachId,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    data
                     if (data.validity == 1) {
                         swl({
                             title: "还书成功！",
