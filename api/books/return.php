@@ -28,7 +28,7 @@ if ($id_fine) {
         $validity = $result + 1;
         //add fine record into fine
         if ($fine > 0) {
-            $sql_fine = "insert into fine(rId,bId,bEachId,fAmount,fType,fDate) values('$rId','$bId','$bEachId','$fine',1,'$timestamp')";
+            $sql_fine = "INSERT INTO fine(rId,bId,bEachId,fAmount,fType,fDate) values('$rId','$bId','$bEachId','$fine',1,'$timestamp')";
             modify($sql_fine);
             $sql_fId = "SELECT fId from fine where rId ='$rId' and rEachId = '$bEachId' and bId = '$bId' and fDate = '$timestamp' limit 1";
             $fId = select($sql_fId)[0]['fId'];
