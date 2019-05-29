@@ -20,7 +20,7 @@ if ($reader) {
     if ($reader[0]['rPassword'] === $password) {
         $token .= "rdr";
         $uid = $reader[0]['rId'];
-        $sql_login = "update reader set rToken = '$token' where rId = '$id'";
+        $sql_login = "update reader set rToken = '$token' where rId = '$uid'";
         $validity = modify($sql_login) + 1;
     } else {
         $validity = 0;
@@ -31,7 +31,7 @@ if ($reader) {
         if ($admin[0]['aPassword'] === $password) {
             $token .= "adm";
             $uid = $admin[0]['aId'];
-            $sql_login = "update admin set aToken = '$token' where aId = '$pw'";
+            $sql_login = "update admin set aToken = '$token' where aId = '$uid'";
             $validity = modify($sql_login) + 1;
         } else {
             $validity = 0;

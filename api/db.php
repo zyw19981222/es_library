@@ -16,11 +16,12 @@ function select($sql)
         while ($row = $result->fetch_assoc()) {
             array_push($data, $row);
         }
+        $conn->close();
         return $data;
     } else {
+        $conn->close();
         return [];
     }
-    $conn->close();
 }
 
 function modify($sql)
@@ -34,9 +35,11 @@ function modify($sql)
         return -1; //error
     }
     if ($conn->query($sql) === true) {
+        $conn->close();
         return 0; //success
     } else {
+        $conn->close();
         return -1; //error
     }
-    $conn->close();
+    
 }

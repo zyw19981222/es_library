@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../res/vue/vue.js"></script>
+    <script src="../../res/jquery/jquery.js"></script>
+    <script src="../../res/swal2/sweetalert2.all.js"></script>
+    <script src="../../res/bootstrap/js/bootstrap.js"></script>
+    <script src="../../res/jquery/jquery.cookie.js"></script>
+    <!-- <script src="../res/node_modules/iview/dist/iview.js"></script> -->
+    <!-- <link rel="stylesheet" href="../res/node_modules/iview/dist/styles/iview.css"> -->
+    <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../res/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<div id="main">
+    <div v-show="renderComplete">
+
+    </div>
+</div>
+
+<body>
+
+</body>
+<script src="../../js/loginState.js"></script>
+<script>
+    let app = new Vue({
+        el: "main",
+        data: {
+            renderComplete: false
+        },
+        created: function() {
+            ensureLogin();
+            var that = this;
+            $.post("", {
+
+            })
+        },
+        methods: {
+
+        }
+    })
+</script>
+
+</html>

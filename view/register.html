@@ -14,51 +14,122 @@
     <!-- <link rel="stylesheet" href="../res/node_modules/iview/dist/styles/iview.css"> -->
     <link rel="stylesheet" href="../res/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="../res/font-awesome-4.7.0/css/font-awesome.css">
+
+    <style>
+        /* 可以设置不同的进入和离开动画 */
+        /* 设置持续时间和动画函数 */
+        
+        .switch-enter-active,
+        .switch-leave-active {
+            transition: opacity 0.5s
+        }
+        
+        .switch-enter,
+        .switch-leave-to {
+            opacity: 0
+        }
+    </style>
 </head>
 
 <body class="bg-light" style="background-image: url(../image/crossword.png)">
     <div id="main" class="container-fluid">
         <div id="main" class="row-fluid">
-            <div class="col-lg-8 w-100">
-            </div>
-            <div class="col-lg-4 offset-lg-8">
+            <div class="col-lg-4 offset-lg-4">
                 <div class="col-lg-8 offset-lg-2">
                     <div style="margin-top:50%;">
                         <div class="row mb-5">
                             <div class="col">
                                 <div class="text-center text-light">
-                                    <a href="login.html" class="btn btn-dark btn-lg btn-block"><strong>用户登录</strong></a>
+                                    <a href="register.html" class="btn btn-dark btn-lg btn-block"><strong>用户注册</strong></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-user-circle-o"></i></span>
+
+                        <transition name="switch">
+                            <div class="row" v-show="show1">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-address-card-o"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="输入姓名" v-model="name">
                                     </div>
-                                    <input type="text" v-model="username" class="form-control" placeholder="输入用户名" name="username">
-                                </div>
-                                <div class="input-group mb-4">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text "><i class="fa fa-key"></i></span>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-id-card-o"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="输入身份证" v-model="idCardNo">
                                     </div>
-                                    <!-- <input type="password" name="password1" style="display:none" /> -->
-                                    <input type="password" v-model="password" class="form-control" placeholder="输入密码" name="username">
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-phone"></i>&nbsp;</span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="输入手机" v-model="phone">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-envelope-o"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="输入邮箱" v-model="mail">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-building-o">&nbsp;</i></span>
+                                        </div>
+                                        <select v-model="dept" class="form-control">
+                                        <option selected>请选择学院</option>
+                                        <option v-for="each in deptOpt" :value="each">
+                                            {{each}}
+                                        </option>
+                                    </select>
+                                    </div>
+
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-block" @click="next()" :disabled="!validInput">继续</button>
+                                    </div><br>
+                                    <div style="text-align:right;">
+                                        <a href="login.html">已有账号？</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <button type="button" class="btn btn-primary btn-block mb-3" @click="login()">登录</button>
-                                <button type="button" class="btn btn-secondary btn-block" @click="register()">注册</button><br>
-                                <div style="text-align:right;">
-                                    <a href="">忘记密码？</a>
+                        </transition>
+                        <transition name="switch">
+                            <div class="row" v-show="show2">
+                                <div class="col">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-user-circle-o"></i></span>
+                                        </div>
+                                        <input v-model="username" type="text" class="form-control" placeholder="输入用户名" @blur="">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text "><i class="fa fa-key"></i></span>
+                                        </div>
+                                        <input v-model="password" type="password" class="form-control" placeholder="输入密码">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text "><i class="fa fa-key"></i></span>
+                                        </div>
+                                        <input v-model="password_2" type="password" class="form-control" placeholder="再次输入密码">
+                                    </div>
+
+                                    <div class="clearfix">
+                                        <button @click="back()" type="button" class="btn btn-secondary float-left" style="width:48%;">返回</button>
+                                        <button @click="register()" type="button" class="btn btn-success float-right " style="width:48%;">确认</button>
+                                    </div><br>
                                 </div>
                             </div>
-                        </div>
+                        </transition>
+                        {{username}} {{password}} {{password_2}} {{idCardNo}} {{dept}} {{mail}} {{phone}}{{name}}
                     </div>
-                    {{username}} {{password}}
                 </div>
             </div>
         </div>
@@ -71,33 +142,45 @@
         data: {
             username: "",
             password: "",
-            validity: 0,
+            name: "",
+            dept: "请选择学院",
+            idCardNo: "",
+            phone: "",
+            mail: "",
+            deptOpt: ["Dept of Computer Science"],
+
+            password_2: "",
+
+            //visualeffect
+            show1: true,
+            show2: false,
+            //logical
+            validInput: false,
         },
         created() {
 
         },
         methods: {
-            login: function() {
-                swal({
-                    title: "Loading...",
-                    width: 250,
-                    showConfirmButton: false,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    showConfirmButton: false,
-                    onOpen: () => {
-                        swal.showLoading()
-                    }
-                });
+            next: function() {
+                this.show1 = !this.show1;
+                window.setTimeout(() => {
+                    this.show2 = !this.show2;
+                }, 500)
+            },
+
+            register: function() {
                 var that = this;
-                $.post("../api/account/login.php", {
+                $.post("../api/account/register.php", {
                     username: that.username,
                     password: that.password,
+                    name: that.name,
+                    dept: that.dept,
+                    idCardNo: that.idCardNo,
+                    phone: that.phone,
+                    mail: that.mail
                 }).done((data) => {
                     data = JSON.parse(data);
                     if (data.validity == 1) {
-                        type = data.token.slice(-3);
                         $.cookie('token', data.token, {
                             expires: 1,
                             secure: false,
@@ -108,49 +191,92 @@
                             secure: false,
                             path: '/'
                         });
+                        $.cookie('type', 1, {
+                            expires: 1,
+                            secure: false,
+                            path: '/'
+                        });
                         swal({
-                            title: "登录成功！",
+                            title: "注册成功！",
                             type: "success",
                             showConfirmButton: false,
                             timer: 1000,
-                        })
-                        if (type == "adm") {
-                            $.cookie('type', 0, {
-                                expires: 1,
-                                secure: false,
-                                path: '/'
-                            });
-                            window.location.href = 'admin/index.html';
-                        } else {
-                            $.cookie('type', 1, {
-                                expires: 1,
-                                secure: false,
-                                path: '/'
-                            });
-                            window.location.href = 'reader/index.html';
-                        }
-                    } else {
-                        swal({
-                            title: "账号密码错误或不存在！",
-                            type: "error",
-                            confirmButtonText: "重试",
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            showConfirmButton: false,
-                            timer: 1000,
                         }).then(() => {
-                            that.username = "";
-                            that.password = "";
-                            that.validity = 0;
+                            window.location.href = 'reader/index.html';
                         });
+                    } else {
+                        console.log("error")
                     }
                 })
             },
-            register: function() {
-                window.location.href = 'register.html';
-            }
+
+            back: function() {
+                this.show2 = !this.show2;
+                window.setTimeout(() => {
+                    this.show1 = !this.show1;
+                }, 500)
+            },
+            // isComplete_1: function() {
+            //     this.name = this.name.replace(/\s+/g, "");
+            //     this.phone = this.phone.replace(/\s+/g, "");
+            //     this.identificationNum = this.identificationNum.replace(/\s+/g, "");
+            //     this.mail = this.mail.replace(/\s+/g, "");
+            //     if (this.name == "") {
+            //         this.nameCls = "form-control is-invalid";
+            //         this.complete_1 = false;
+            //     } else this.nameCls = "form-control";
+            //     if (this.phone.match(/^1\d{10}$/) === null) {
+            //         ssss
+            //         this.complete_1 = false;
+            //     } else this.phoneCls = "form-control";
+            //     if (this.identificationNum.match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/) === null) {
+            //         this.idCls = "form-control is-invalid";
+            //         this.complete_1 = false;
+            //     } else this.idCls = "form-control";
+            //     if (this.mail.match(/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/) === null) {
+            //         this.mailCls = "form-control is-invalid";
+            //         this.complete_1 = false;
+            //     } else this.mailCls = "form-control";
+            //     if (this.company == 0) {
+            //         this.companyCls = "form-control is-invalid";
+            //         this.complete_1 = false;
+            //     } else this.companyCls = "form-control";
+            //     if (this.nameCls == "form-control" && this.mailCls == "form-control" && this.phoneCls == "form-control" && this.idCls == "form-control" && this.companyCls == "form-control") {
+            //         this.complete_1 = true;
+            //     }
+
         }
     })
+</script>
+
+<script>
+    //test
+    // swal({
+    //     title: "Loading...",
+    //     width: 250,
+    //     showConfirmButton: false,
+    //     allowOutsideClick: false,
+    //     allowEscapeKey: false,
+    //     allowEnterKey: false,
+    //     showConfirmButton: false,
+    //     onOpen: () => {
+    //         swal.showLoading()
+    //     }
+    // });
+
+    // swal({
+    //     title: "账号密码错误或不存在！",
+    //     type: "error",
+    //     confirmButtonText: "重试",
+    //     allowOutsideClick: false,
+    //     allowEscapeKey: false,
+    //     showConfirmButton: false,
+    //     timer: 1000,
+    // }).then(() => {
+    //     that.username = "";
+    //     that.password = "";
+    //     that.validity = 0;
+    // });
 </script>
 
 </html>

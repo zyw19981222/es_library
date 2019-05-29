@@ -26,6 +26,7 @@ if(!$existance)
     $uid = select($sql_uid);
     if($uid)
     {
+        $uid = $uid[0]['rId'];
         $validity *= 1;
     }
     else

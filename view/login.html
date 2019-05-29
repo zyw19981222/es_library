@@ -71,7 +71,6 @@
         data: {
             username: "",
             password: "",
-            validity: 0,
         },
         created() {
 
@@ -131,17 +130,16 @@
                         }
                     } else {
                         swal({
-                            title: "账号密码错误或不存在！",
+                            title: "无效的用户名或密码！",
                             type: "error",
                             confirmButtonText: "重试",
                             allowOutsideClick: false,
                             allowEscapeKey: false,
-                            showConfirmButton: false,
-                            timer: 1000,
+                            showConfirmButton: true,
+                            timer: 2000,
                         }).then(() => {
                             that.username = "";
                             that.password = "";
-                            that.validity = 0;
                         });
                     }
                 })
