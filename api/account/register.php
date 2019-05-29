@@ -16,13 +16,13 @@ $validity = 0;
 $token = getRandomStr(12)."rdr";
 $uid = 0;
 
-$sql_existance = "select * from reader,admin where reader.rUsername = '$username' or admin.aUsername = '$username'";
+$sql_existance = "select * from reader,admin where reader.rUsername = '$username' or admin.aUsername = '$username' limit 1";
 $existance = select($sql_existance);
 if(!$existance)
 {
     $sql_signup = "insert into reader(rUsername,rName,rPassword,rDept,rIdCard,rPhone,rMail,rToken) values('$username','$name','$password','$dept','$idCardNo','$phone','$mail','$token')";
     $validity = modify($sql_signup) + 1;
-    $sql_uid = "select rId from reader where rUsername = '$username'";
+    $sql_uid = "select rId from reader where rUsername = '$username' limit 1";
     $uid = select($sql_uid);
     if($uid)
     {

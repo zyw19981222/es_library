@@ -16,7 +16,7 @@ if(strlen($token)!=15){
 }
 //是读者
 if ($type == 1) {
-    $sql = "select rToken from reader where rId = '$uId'";
+    $sql = "select rToken from reader where rId = '$uId' limit 1";
     $tokenDb = select($sql);
     //查得到uid
     if ($tokenDb) {
@@ -31,7 +31,7 @@ if ($type == 1) {
     }
 //是管理员
 } else if ($type == 0) {
-    $sql = "select aToken from admin where aId = '$aId'";
+    $sql = "select aToken from admin where aId = '$aId' limit 1";
     $tokenDb = select($sql);
     if ($tokenDb) {
         if ($tokenDb[0]['aToken'] == $token) {
