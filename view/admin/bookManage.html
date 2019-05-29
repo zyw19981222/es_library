@@ -24,7 +24,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav border border-top-0 border-bottom-0 border-right-0">
                     <li class="nav-item">
                         <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
                     </li>
@@ -40,7 +40,7 @@
                         <div class="custom-control  custom-control-inline">
                             <h3>库存图书</h3>
                         </div>
-                        <div>
+                        <div class="float-right">
                             <button class="btn btn-success btn-sm" @click="add"><i
                                     class="fa fa-user-plus"></i>新增图书</button>
                             <button class="btn btn-primary btn-sm" @click="search"><i
@@ -77,11 +77,11 @@
                                             <td>{{book.bPub}}</td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
-                                                <button class="btn btn-danger btn-sm flex-fill" @click='edit'><i
-                                                        class="fa fa-user-times"></i>编辑</button>
-                                                <button class="btn btn-danger btn-sm flex-fill"
+                                                <button class="btn btn-success btn-sm  mr-3" @click='edit'><i
+                                                        class="fa fa-pencil-square"></i> 编辑 </button>
+                                                <button class="btn btn-danger btn-sm "
                                                     @click='refuse(person.id)'><i
-                                                        class="fa fa-user-times"></i>删除</button>
+                                                        class="fa fa-remove"></i> 删除 </button>
                                                 <!-- 不行就先改回来，之前这两个还是可以用的 -->
                                                 <!-- <input type="button" value="通过" @click='verified(person.id)'> -->
                                                 <!-- <input type="button" value="拒绝" @click='refuse(person.id)'> -->
