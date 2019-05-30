@@ -34,14 +34,17 @@
             </nav>
             <div class="container shadow bg-light" style="padding: 0px; margin: 0px;">
                 <!-- card -->
-                <div class="card bg-muted" style="height: 657px ;">
+                <div class="card bg-muted" style="height: 657px;">
                     <div class="card-header">
                         <h3>库存图书</h3>
                         <div class="row">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="searchBName">
-                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者" v-model="searchBAuthor">
-                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社" v-model="searchBPub">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书"
+                                    v-model="searchBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者"
+                                    v-model="searchBAuthor">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社"
+                                    v-model="searchBPub">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary mr-3" @click="search()">Search</button>
                                 </div>
@@ -70,7 +73,7 @@
                                     </div>
                                     <!-- 有新的待审核人员时增加到表格下 -->
                                     <div>
-                                        <tr v-for="book in books" v-if="seen">
+                                        <tr v-for="book in books">
                                             <td>{{book.bId}}</td>
                                             <td>{{book.bEachId}}</td>
                                             <td>{{book.bName}}</td>
@@ -114,18 +117,18 @@
         // 点击菜单使用的函数
         methods: {
             reserve: function (bE) {
+                var that = this;
                 $.post("../../api/books/reserve.php", {
                     bEachId: bE,
-                }).done((data) =>{
+                }).done((data) => {
                     data = JSON.parse(data);
-                    if(data.validity ==1){
+                    if (data.validity == 1) {
                         swal(
                             '添加成功！',
                             'success'
                         )
-                        this.num -=1;
-                    }
-                    else{
+                        that.num -= 1;
+                    } else {
                         swal(
                             'Error！',
                             'error'
@@ -135,15 +138,16 @@
             },
             //  查询图书
             search: function () {
-                $.post("../../api/books/adminSearchBook.php", {
-                    bName: this.searchBName,
-                    bAuthor: this.searchBAuthor,
-                    bPub: this.searchBPub,
+                var that = this;
+                $.post("../../api/books/search.php", {
+                    bName: that.searchBName,
+                    bAuthor: that.searchBAuthor,
+                    bPub: that.searchBPub,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    this.books = data;
+                    that.books = data;
                 })
-            },          
+            },
         }
     })
 </script>

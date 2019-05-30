@@ -77,9 +77,10 @@
         methods: {
             //借书
             borrowBook: function() {
+                var that = this;
                 $.post("../../api/books/borrow.php", {
                     rId: $.cookie('uid'),
-                    bId: this.bId,
+                    bId: that.bId,
                 }).done((data) => {
                     data = JSON.parse(data);
                     //  不欠费，不延期，不多借
@@ -114,13 +115,13 @@
             returnBook: function() {
                 $.post("../../api/books/return.php", {
                     rId: $.cookie('uid'),
-                    bId: this.bId,
+                    bId: that.bId,
                 }).done((data) => {
                     data = JSON.parse(data);
                     if (data.validity == 1) {
                         swal({
                             title: "还书成功！",
-                            text: '欠费' + this.fine,
+                            text: '欠费' + that.fine,
                             type: "success",
                             showConfirmButton: false,
                             timer: 1000,

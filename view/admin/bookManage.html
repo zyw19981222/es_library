@@ -39,9 +39,14 @@
                         <h3>库存图书</h3>
                         <div class="row">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="searchBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书"
+                                    v-model="searchBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者"
+                                    v-model="searchBAuthor">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社"
+                                    v-model="searchBPub">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary mr-3">Search</button>
+                                    <button class="btn btn-primary mr-3" @click="search()">Search</button>
                                 </div>
                             </div>
 
@@ -64,18 +69,19 @@
                                                 <th>作者</th>
                                                 <th>出版社</th>
                                                 <th>数量</th>
-                                                <th class="d-flex flex-wrap"> <button class="btn btn-info flex-grow-1 btn-sm" @click='newBook()'> 新增书目
+                                                <th class="d-flex flex-wrap"> <button
+                                                        class="btn btn-info flex-grow-1 btn-sm" @click='newBook()'> 新增书目
                                                     </button></th>
                                             </tr>
                                         </thead>
                                     </div>
-                                    <!-- 有新的待审核人员时增加到表格下 -->
                                     <div>
                                         <tr v-if="seen">
                                             <td></td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bName">
                                             </td>
-                                            <td><input type="text" class="form-control" placeholder="" v-model="bAuthor">
+                                            <td><input type="text" class="form-control" placeholder=""
+                                                    v-model="bAuthor">
                                             </td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bPub">
                                             </td>
@@ -95,7 +101,8 @@
                                             <td>{{book.num}}</td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
-                                                <button class="btn btn-danger btn-sm " @click='removeBook(book.bEachId)'><i class="fa fa-remove"></i> 删除
+                                                <button class="btn btn-danger btn-sm "
+                                                    @click='removeBook(book.bEachId)'><i class="fa fa-remove"></i> 删除
                                                 </button>
                                             </td>
                                         </tr>
@@ -133,26 +140,29 @@
         // 点击菜单使用的函数
         methods: {
             //  查询图书
-            search: function() {
-                $.post("../../api/books/adminSearchBook.php", {
-                    bName: this.searchBName,
+            search: function () {
+                var that = this;
+                $.post("../../api/books/search.php", {
+                    bName: that.searchBName,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    this.books = data;
+                    that.books = data;
                 })
             },
 
 
 
             //  新增图书
-            newBook: function() {
-                this.seen = true;
+            newBook: function () {
+                var that = this;
+                that.seen = true;
             },
 
 
 
             //  添加图书
-            addBook: function() {
+            addBook: function () {
+                var that = this;
                 swal({
                     title: '请确认信息？',
                     type: 'info',
@@ -165,9 +175,9 @@
 
                 }).then($.post("../../api/books/addBook.php",
                     newBookInfo = {
-                        bName: this.bName,
-                        bAuthor: this.bAuthor,
-                        bPub: this.bPub,
+                        bName: that.bName,
+                        bAuthor: that.bAuthor,
+                        bPub: that.bPub,
                         num: that.num,
                     })).done((data) => {
                     data = JSON.parse(data);
@@ -176,7 +186,7 @@
                             '添加成功！',
                             'success'
                         )
-                        this.seen = false;
+                        that.seen = false;
                     } else {
                         swal(
                             'Error！',
@@ -189,7 +199,7 @@
 
 
             //  删除图书
-            removeBook: function(bE) {
+            removeBook: function (bE) {
                 swal({
                     title: '确定删除吗？',
                     text: '你将无法恢复它！',
