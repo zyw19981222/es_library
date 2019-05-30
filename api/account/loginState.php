@@ -31,7 +31,7 @@ if ($type == 1) {
     }
 //是管理员
 } else if ($type == 0) {
-    $sql = "select aToken from admin where aId = '$aId' limit 1";
+    $sql = "select aToken from admin where aId = '$uId' limit 1";
     $tokenDb = select($sql);
     if ($tokenDb) {
         if ($tokenDb[0]['aToken'] == $token) {
