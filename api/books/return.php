@@ -32,7 +32,7 @@ if ($id_fine) {
         if ($fine > 0) {
             $sql_fine = "INSERT INTO fine(rId,bId,bEachId,fAmount,fType,fDate) values('$rId','$bId','$bEachId','$fine',1,'$timestamp')";
             modify($sql_fine);
-            $sql_fId = "SELECT fId, fAmount from fine where rId ='$rId' and rEachId = '$bEachId' and bId = '$bId' and fDate = '$timestamp' limit 1"; 
+            $sql_fId = "SELECT fId, fAmount from fine where rId ='$rId' and bEachId = '$bEachId' and bId = '$bId' and fDate = '$timestamp' limit 1"; 
             $result = select($sql_fId);
             $fId = $result[0]['fId'];
             $fAmount = $result[0]['fAmount'];

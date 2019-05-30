@@ -23,14 +23,24 @@
         <div class="container">
             <nav class="navbar navbar-expand-md bg-dark navbar-dark shadow p-3 mb-3 mt-3 rounded sticky-top">
                 <a class="navbar-brand" href="#">ESLibrary</a>
-                <ul class="navbar-nav border border-top-0 border-bottom-0 border-right-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-book"></i>图书管理</a>
-                    </li>
-                </ul>
+                <div class="clearfix">
+                    <div class="float-left">
+                        <ul class="navbar-nav border border-top-0 border-bottom-0 border-right-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-book"></i>图书管理</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="float-right ml-5">
+                        <a href="index.html"><img src="http://static.runoob.com/images/mix/img_avatar.png" class="rounded-circle" alt="Cinque Terre" style="width:40px; height:40px;"><span>&nbsp;</span></a>
+                    </div>
+                </div>
+
+
             </nav>
             <div class="container shadow bg-light" style="padding: 0px; margin: 0px;">
                 <!-- card -->
@@ -39,12 +49,9 @@
                         <h3>库存图书</h3>
                         <div class="row">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书"
-                                    v-model="searchBName">
-                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者"
-                                    v-model="searchBAuthor">
-                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社"
-                                    v-model="searchBPub">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="searchBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者" v-model="searchBAuthor">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社" v-model="searchBPub">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary mr-3" @click="search()">Search</button>
                                 </div>
@@ -82,8 +89,7 @@
                                             <td>{{num}}</td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
-                                                <button class="btn btn-warning btn-sm "
-                                                    @click='reserve(book.bEachId)'><i
+                                                <button class="btn btn-warning btn-sm " @click='reserve(book.bEachId)'><i
                                                         class="fa fa-american-sign-language-interpreting"></i> 预约
                                                 </button>
                                             </td>
@@ -96,9 +102,10 @@
                 </div>
             </div>
         </div>
-
     </div>
 </body>
+<script src="../../js/loginState.js"></script>
+
 <script>
     // 创建一个新的 Vue 实例
     var main = new Vue({
@@ -112,11 +119,15 @@
             searchBPub: '',
             num: '',
             seen: false,
+            books: []
 
+        },
+        created() {
+            ensureLogin();
         },
         // 点击菜单使用的函数
         methods: {
-            reserve: function (bE) {
+            reserve: function(bE) {
                 var that = this;
                 $.post("../../api/books/reserve.php", {
                     bEachId: bE,
@@ -137,7 +148,7 @@
                 })
             },
             //  查询图书
-            search: function () {
+            search: function() {
                 var that = this;
                 $.post("../../api/books/search.php", {
                     bName: that.searchBName,
@@ -145,7 +156,7 @@
                     bPub: that.searchBPub,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    that.books = data;
+                    that.books = data.books;
                 })
             },
         }
