@@ -64,8 +64,7 @@
                                                 <th>作者</th>
                                                 <th>出版社</th>
                                                 <th>数量</th>
-                                                <th class="d-flex flex-wrap"> <button
-                                                        class="btn btn-info flex-grow-1 btn-sm" @click='newBook()'> 新增书目
+                                                <th class="d-flex flex-wrap"> <button class="btn btn-info flex-grow-1 btn-sm" @click='newBook()'> 新增书目
                                                     </button></th>
                                             </tr>
                                         </thead>
@@ -76,8 +75,7 @@
                                             <td></td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bName">
                                             </td>
-                                            <td><input type="text" class="form-control" placeholder=""
-                                                    v-model="bAuthor">
+                                            <td><input type="text" class="form-control" placeholder="" v-model="bAuthor">
                                             </td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bPub">
                                             </td>
@@ -97,8 +95,7 @@
                                             <td>{{book.num}}</td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
-                                                <button class="btn btn-danger btn-sm "
-                                                    @click='removeBook(book.bEachId)'><i class="fa fa-remove"></i> 删除
+                                                <button class="btn btn-danger btn-sm " @click='removeBook(book.bEachId)'><i class="fa fa-remove"></i> 删除
                                                 </button>
                                             </td>
                                         </tr>
@@ -136,7 +133,7 @@
         // 点击菜单使用的函数
         methods: {
             //  查询图书
-            search: function () {
+            search: function() {
                 $.post("../../api/books/adminSearchBook.php", {
                     bName: this.searchBName,
                 }).done((data) => {
@@ -148,14 +145,14 @@
 
 
             //  新增图书
-            newBook: function () {
+            newBook: function() {
                 seen = !seen;
             },
 
 
 
             //  添加图书
-            addBook: function () {
+            addBook: function() {
                 swal({
                     title: '请确认信息？',
                     type: 'info',
@@ -166,13 +163,13 @@
 
                     //这样能传newBookInfo数组？
 
-                }).then($.post("../../api/books/addNewBook.php", 
-                newBookInfo = {
-                    bName: this.bName,
-                    bAuthor: this.bAuthor,
-                    bPub: this.bPub,
-                    num: that.num,
-                })).done((data) => {
+                }).then($.post("../../api/books/addBook.php",
+                    newBookInfo = {
+                        bName: this.bName,
+                        bAuthor: this.bAuthor,
+                        bPub: this.bPub,
+                        num: that.num,
+                    })).done((data) => {
                     data = JSON.parse(data);
                     if (data.validity == 1) {
                         swal(
@@ -180,8 +177,7 @@
                             'success'
                         )
                         this.seen = false;
-                    }
-                    else{
+                    } else {
                         swal(
                             'Error！',
                             'error'
@@ -193,7 +189,7 @@
 
 
             //  删除图书
-            removeBook: function (bE) {
+            removeBook: function(bE) {
                 swal({
                     title: '确定删除吗？',
                     text: '你将无法恢复它！',
@@ -214,8 +210,7 @@
                             '删除成功！',
                             'success'
                         )
-                    }
-                    else{
+                    } else {
                         swal(
                             'Error！',
                             'error'
