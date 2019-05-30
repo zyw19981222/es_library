@@ -39,12 +39,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <input class="col mt-3 ml-3 mr-3" type="text" class="form-control" placeholder="证件号" v-model="rId">
                         <input class="col mt-3 mr-3" type="text" class="form-control" placeholder="书本编号" v-model="bId">
                         
                     </div>
                     <div class="float-right mt-3">
-                            <button class="btn btn-primary btn-sm flex-fill" @click='returnBook()'><i
+                            <button class="btn btn-primary btn-sm flex-fill" @click='borrowBook()'><i
                                     class="fa fa-credit-card"></i> 借书 </button>
                             <button class="btn btn-success btn-sm flex-fill" @click='returnBook()'><i
                                     class="fa fa-credit-card-alt"></i> 还书 </button>
