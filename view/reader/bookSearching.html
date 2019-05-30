@@ -39,9 +39,11 @@
                         <h3>库存图书</h3>
                         <div class="row">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="seachBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="searchBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书作者" v-model="searchBAuthor">
+                                <input type="text" class="form-control ml-3" placeholder="请输入图书出版社" v-model="searchBPub">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary mr-3">Search</button>
+                                    <button class="btn btn-primary mr-3" @click="search()">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +96,7 @@
 
     </div>
 </body>
-<!-- <script>
+<script>
     // 创建一个新的 Vue 实例
     var main = new Vue({
         // DOM 元素，挂载视图模型
@@ -103,8 +105,11 @@
         data: {
             //Search
             searchBName: '',
+            searchBAuthor: '',
+            searchBPub: '',
             num: '',
             seen: false,
+
         },
         // 点击菜单使用的函数
         methods: {
@@ -131,7 +136,9 @@
             //  查询图书
             search: function () {
                 $.post("../../api/books/adminSearchBook.php", {
-                    bName: this.seachBName,
+                    bName: this.searchBName,
+                    bAuthor: this.searchBAuthor,
+                    bPub: this.searchBPub,
                 }).done((data) => {
                     data = JSON.parse(data);
                     this.books = data;
@@ -139,6 +146,6 @@
             },          
         }
     })
-</script> -->
+</script>
 
 </html>
