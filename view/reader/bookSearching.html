@@ -36,7 +36,7 @@
                 <!-- card -->
                 <div class="card bg-muted" style="height: 657px ;">
                     <div class="card-header">
-                            <h3>库存图书</h3>
+                        <h3>库存图书</h3>
                         <div class="row">
                             <!-- <input class="col-9 mt-3 ml-3 mr-3 " type="text" class="form-control" placeholder="证件号"
                             v-model="rId">
@@ -44,7 +44,7 @@
                                 class="fa fa-search"></i>查询图书</button>
                                 </div> -->
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="seachBName">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary mr-3">Search</button>
                                 </div>
@@ -54,95 +54,162 @@
                     </div>
 
 
-                        <div class="card-body" style="padding: 0px; margin: 0px; ">
-                            <!-- different views in unique size window -->
-                            <div class="table-responsive">
+                    <div class="card-body" style="padding: 0px; margin: 0px; ">
+                        <!-- different views in unique size window -->
+                        <div class="table-responsive">
 
-                                <div class="text-center">
-                                    <!-- dark table + hover effect + grey hover + set border + small table -->
-                                    <table class="table table-dark table-hover table-striped table-bordered table-sm ">
-                                        <div>
-                                            <thead>
-                                                <tr>
-                                                    <th>书本编号</th>
-                                                    <th>书本系别</th>
-                                                    <th>书名</th>
-                                                    <th>作者</th>
-                                                    <th>出版社</th>
-                                                    <th class="d-flex flex-wrap"> <button class="btn btn-info flex-grow-1 btn-sm" @click='edit'> 新增书目 </button></th>
-                                                </tr>
-                                            </thead>
-                                        </div>
-                                        <!-- 有新的待审核人员时增加到表格下 -->
-                                        <div>
-                                            <tr v-for="book in info">
-                                                <td>{{book.bId}}</td>
-                                                <td>{{book.bEachId}}</td>
-                                                <td>{{book.bName}}</td>
-                                                <td>{{book.bAuthor}}</td>
-                                                <td>{{book.bPub}}</td>
-                                                <td>
-                                                    <!-- small button with the click event reload the page  -->
-                                                    <button class="btn btn-danger btn-sm " @click='refuse(person.id)'><i
-                                                            class="fa fa-remove"></i> 预定 </button>
-                                                </td>
+                            <div class="text-center">
+                                <!-- dark table + hover effect + grey hover + set border + small table -->
+                                <table class="table table-dark table-hover table-striped table-bordered table-sm ">
+                                    <div>
+                                        <thead>
+                                            <tr>
+                                                <th>图书编号</th>
+                                                <th>图书系别</th>
+                                                <th>书名</th>
+                                                <th>作者</th>
+                                                <th>出版社</th>
+                                                <th>数量</th>
+                                                <th></th>
                                             </tr>
-                                        </div>
-                                    </table>
-                                </div>
+                                        </thead>
+                                    </div>
+                                    <!-- 有新的待审核人员时增加到表格下 -->
+                                    <div>
+                                        <tr v-for="book in books" v-if="seen">
+                                            <td>{{book.bId}}</td>
+                                            <td>{{book.bEachId}}</td>
+                                            <td>{{book.bName}}</td>
+                                            <td>{{book.bAuthor}}</td>
+                                            <td>{{book.bPub}}</td>
+                                            <td>{{book.num}}</td>
+                                            <td>
+                                                <!-- small button with the click event reload the page  -->
+                                                <button class="btn btn-warning btn-sm "
+                                                    @click='reserve(book.bEachId)'><i class="fa fa-american-sign-language-interpreting"></i> 预约
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </div>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
+    </div>
 </body>
-<!-- <script>
+<script>
     // 创建一个新的 Vue 实例
     var main = new Vue({
         // DOM 元素，挂载视图模型
         el: '#main',
         // 定义属性，并设置初始值
         data: {
-            info: [],
-            badgeIndex: '',
+            //Search
+            searchBName: '',
+            seen: false,
+
+
         },
-
-
-        
-
         // 点击菜单使用的函数
         methods: {
+            reserve: function(bE){
+                $.post("../../api/books/reserve.php", {
+                    bEachId: bE,
+                }).done
+            }
             //  查询图书
             search: function () {
-                swal.setDefaults({
-                    confirmButtonText: '下一个 &rarr;',
-                    showCancelButton: true,
-                    animation: false
-                });
-
-                var steps = [{
-                        title: '问题 1',
-                        text: 'swal2链式弹窗是简单的'
-                    },
-                    '问题 2',
-                    '问题 3'
-                ];
-
-                swal.queue(steps).then(function () {
-                    swal({
-                        title: '完成！',
-                        confirmButtonText: '漂亮！',
-                        showCancelButton: false
-                    });
-                }).finally(function () {
-                    swal.resetDefaults();
+                $.post("../../api/books/adminSearchBook.php", {
+                    bName: this.seachBName,
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    this.books = data;
                 })
-            }
-            
+            },
+
+
+
+            //  新增图书
+            preserve: function () {
+                seen = !seen;
+            },
+
+
+
+            //  添加图书
+            addBook: function () {
+                swal({
+                    title: '请确认信息？',
+                    type: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确定添加！',
+
+                    //这样能传newBookInfo数组？
+
+                }).then($.post("../../api/books/addNewBook.php", 
+                newBookInfo = {
+                    bName: this.bName,
+                    bAuthor: this.bAuthor,
+                    bPub: this.bPub,
+                })).done((data) => {
+                    data = JSON.parse(data);
+                    if (data.validity == 1) {
+                        swal(
+                            '添加成功！',
+                            'success'
+                        )
+                        this.seen = false;
+                    }
+                    else{
+                        swal(
+                            'Error！',
+                            'error'
+                        )
+                    }
+                })
+            },
+
+
+
+            //  删除图书
+            removeBook: function (bE) {
+                swal({
+                    title: '确定删除吗？',
+                    text: '你将无法恢复它！',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '确定删除！',
+
+                    //不确定这个括号对不对
+
+                }).then($.post("../../api/books/removeBook.php", {
+                    bEachId: bE,
+                })).done((data) => {
+                    data = JSON.parse(data);
+                    if (data.validity == 1) {
+                        swal(
+                            '删除成功！',
+                            'success'
+                        )
+                    }
+                    else{
+                        swal(
+                            'Error！',
+                            'error'
+                        )
+                    }
+                })
+            },
         }
     })
-</script> -->
+</script>
 
 </html>

@@ -65,10 +65,10 @@
                                         <thead>
                                             <tr>
                                                 <th>图书编号</th>
-                                                <th>图书系别</th>
                                                 <th>书名</th>
                                                 <th>作者</th>
                                                 <th>出版社</th>
+                                                <th>数量</th>
                                                 <th class="d-flex flex-wrap"> <button
                                                         class="btn btn-info flex-grow-1 btn-sm" @click='newBook()'> 新增书目
                                                     </button></th>
@@ -79,13 +79,14 @@
                                     <div>
                                         <tr v-if="seen">
                                             <td></td>
-                                            <td></td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bName">
                                             </td>
                                             <td><input type="text" class="form-control" placeholder=""
                                                     v-model="bAuthor">
                                             </td>
                                             <td><input type="text" class="form-control" placeholder="" v-model="bPub">
+                                            </td>
+                                            <td><input type="text" class="form-control" placeholder="" v-model="num">
                                             </td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
@@ -95,10 +96,10 @@
                                         </tr>
                                         <tr v-for="book in books">
                                             <td>{{book.bId}}</td>
-                                            <td>{{book.bEachId}}</td>
                                             <td>{{book.bName}}</td>
                                             <td>{{book.bAuthor}}</td>
                                             <td>{{book.bPub}}</td>
+                                            <td>{{book.num}}</td>
                                             <td>
                                                 <!-- small button with the click event reload the page  -->
                                                 <button class="btn btn-danger btn-sm "
@@ -132,12 +133,10 @@
             bName: '',
             bAuthor: '',
             bPub: '',
+            num: 0,
 
 
         },
-
-
-
 
         // 点击菜单使用的函数
         methods: {
@@ -177,6 +176,7 @@
                     bName: this.bName,
                     bAuthor: this.bAuthor,
                     bPub: this.bPub,
+                    num: that.num,
                 })).done((data) => {
                     data = JSON.parse(data);
                     if (data.validity == 1) {
