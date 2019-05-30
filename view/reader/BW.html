@@ -29,7 +29,7 @@
                         <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="bookManage.html"><i class="fa fa-book"></i>图书管理</a>
+                        <a class="nav-link" href="bookSearching.html"><i class="fa fa-book"></i>图书管理</a>
                     </li>
                 </ul>
             </nav>
@@ -79,7 +79,7 @@
             //借书
             borrowBook: function() {
                 $.post("../../api/books/borrow.php", {
-                    rId: this.rId,
+                    rId: $.cookie('uid'),
                     bId: this.bId,
                 }).done((data) => {
                     data = JSON.parse(data);
@@ -114,7 +114,7 @@
             //还书
             returnBook: function() {
                 $.post("../../api/books/return.php", {
-                    rId: this.rId,
+                    rId: $.cookie('uid'),
                     bId: this.bId,
                 }).done((data) => {
                     data = JSON.parse(data);
