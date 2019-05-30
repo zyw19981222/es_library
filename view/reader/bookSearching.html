@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>图书管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../res/vue/vue.js"></script>
+    <script src="../../res/jquery/jquery.js"></script>
+    <script src="../../res/swal2/sweetalert2.all.js"></script>
+    <script src="../../res/bootstrap/js/bootstrap.js"></script>
+    <script src="../../res/jquery/jquery.cookie.js"></script>
+    <script src="../../res/iview/iview.min.js"></script>
+    <!-- <script src="../res/node_modules/iview/dist/iview.js"></script> -->
+    <!-- <link rel="stylesheet" href="../res/node_modules/iview/dist/styles/iview.css"> -->
+    <link rel="stylesheet" href="../../res/iview/iview.css">
+    <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../res/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+
+<body>
+    <div id="main" class="containter">
+        <div class="container">
+            <nav class="navbar navbar-expand-md bg-dark navbar-dark shadow p-3 mb-3 mt-3 rounded sticky-top">
+                <a class="navbar-brand" href="#">ESLibrary</a>
+                <ul class="navbar-nav border border-top-0 border-bottom-0 border-right-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa fa-book"></i>图书管理</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="container shadow bg-light" style="padding: 0px; margin: 0px;">
+                <!-- card -->
+                <div class="card bg-muted" style="height: 657px ;">
+                    <div class="card-header">
+                            <h3>库存图书</h3>
+                        <div class="row">
+                            <!-- <input class="col-9 mt-3 ml-3 mr-3 " type="text" class="form-control" placeholder="证件号"
+                            v-model="rId">
+                        <button class="btn btn-primary btn-sm col-3 float-right" @click="search"><i
+                                class="fa fa-search"></i>查询图书</button>
+                                </div> -->
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary mr-3">Search</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                        <div class="card-body" style="padding: 0px; margin: 0px; ">
+                            <!-- different views in unique size window -->
+                            <div class="table-responsive">
+
+                                <div class="text-center">
+                                    <!-- dark table + hover effect + grey hover + set border + small table -->
+                                    <table class="table table-dark table-hover table-striped table-bordered table-sm ">
+                                        <div>
+                                            <thead>
+                                                <tr>
+                                                    <th>书本编号</th>
+                                                    <th>书本系别</th>
+                                                    <th>书名</th>
+                                                    <th>作者</th>
+                                                    <th>出版社</th>
+                                                    <th class="d-flex flex-wrap"> <button class="btn btn-info flex-grow-1 btn-sm" @click='edit'> 新增书目 </button></th>
+                                                </tr>
+                                            </thead>
+                                        </div>
+                                        <!-- 有新的待审核人员时增加到表格下 -->
+                                        <div>
+                                            <tr v-for="book in info">
+                                                <td>{{book.bId}}</td>
+                                                <td>{{book.bEachId}}</td>
+                                                <td>{{book.bName}}</td>
+                                                <td>{{book.bAuthor}}</td>
+                                                <td>{{book.bPub}}</td>
+                                                <td>
+                                                    <!-- small button with the click event reload the page  -->
+                                                    <button class="btn btn-danger btn-sm " @click='refuse(person.id)'><i
+                                                            class="fa fa-remove"></i> 预定 </button>
+                                                </td>
+                                            </tr>
+                                        </div>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</body>
+<!-- <script>
+    // 创建一个新的 Vue 实例
+    var main = new Vue({
+        // DOM 元素，挂载视图模型
+        el: '#main',
+        // 定义属性，并设置初始值
+        data: {
+            info: [],
+            badgeIndex: '',
+        },
+
+
+        
+
+        // 点击菜单使用的函数
+        methods: {
+            //  查询图书
+            search: function () {
+                swal.setDefaults({
+                    confirmButtonText: '下一个 &rarr;',
+                    showCancelButton: true,
+                    animation: false
+                });
+
+                var steps = [{
+                        title: '问题 1',
+                        text: 'swal2链式弹窗是简单的'
+                    },
+                    '问题 2',
+                    '问题 3'
+                ];
+
+                swal.queue(steps).then(function () {
+                    swal({
+                        title: '完成！',
+                        confirmButtonText: '漂亮！',
+                        showCancelButton: false
+                    });
+                }).finally(function () {
+                    swal.resetDefaults();
+                })
+            }
+            
+        }
+    })
+</script> -->
+
+</html>
