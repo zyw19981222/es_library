@@ -1,30 +1,30 @@
-# d:\xampp\htdocs\es_library\view
+# d:\xampp\htdocs\es_library\api
 
-Date : 2019-05-30 11:55:10
+Date : 2019-05-30 14:13:19
 
-Total : 9 files,  1164 codes, 39 comments, 114 blanks, all 1317 lines
+Total : 9 files,  345 codes, 11 comments, 34 blanks, all 390 lines
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| HTML | 9 | 1,164 | 39 | 114 | 1,317 |
+| PHP | 9 | 345 | 11 | 34 | 390 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 9 | 1,164 | 39 | 114 | 1,317 |
-| admin | 3 | 384 | 18 | 42 | 444 |
-| reader | 3 | 352 | 16 | 40 | 408 |
+| . | 9 | 345 | 11 | 34 | 390 |
+| account | 3 | 118 | 6 | 14 | 138 |
+| books | 4 | 158 | 5 | 14 | 177 |
 
 ## Files
 | filename | language | code | comment | blank | total |
 | :--- | :--- | ---: | ---: | ---: | ---: |
-| [admin\BW.html](file:///d%3A/xampp/htdocs/es_library/view/admin/BW.html) | HTML | 134 | 2 | 10 | 146 |
-| [admin\bookManage.html](file:///d%3A/xampp/htdocs/es_library/view/admin/bookManage.html) | HTML | 198 | 13 | 28 | 239 |
-| [admin\newBook.html](file:///d%3A/xampp/htdocs/es_library/view/admin/newBook.html) | HTML | 52 | 3 | 4 | 59 |
-| [index.html](file:///d%3A/xampp/htdocs/es_library/view/index.html) | HTML | 26 | 0 | 3 | 29 |
-| [login.html](file:///d%3A/xampp/htdocs/es_library/view/login.html) | HTML | 146 | 3 | 5 | 154 |
-| [reader\BW.html](file:///d%3A/xampp/htdocs/es_library/view/reader/BW.html) | HTML | 134 | 2 | 10 | 146 |
-| [reader\bookSearching.html](file:///d%3A/xampp/htdocs/es_library/view/reader/bookSearching.html) | HTML | 180 | 12 | 23 | 215 |
-| [reader\index.html](file:///d%3A/xampp/htdocs/es_library/view/reader/index.html) | HTML | 38 | 2 | 7 | 47 |
-| [register.html](file:///d%3A/xampp/htdocs/es_library/view/register.html) | HTML | 256 | 2 | 24 | 282 |
+| [account\login.php](file:///d%3A/xampp/htdocs/es_library/api/account/login.php) | PHP | 38 | 0 | 7 | 45 |
+| [account\loginState.php](file:///d%3A/xampp/htdocs/es_library/api/account/loginState.php) | PHP | 41 | 6 | 3 | 50 |
+| [account\register.php](file:///d%3A/xampp/htdocs/es_library/api/account/register.php) | PHP | 39 | 0 | 4 | 43 |
+| [books\addBook.php](file:///d%3A/xampp/htdocs/es_library/api/books/addBook.php) | PHP | 43 | 0 | 2 | 45 |
+| [books\borrow.php](file:///d%3A/xampp/htdocs/es_library/api/books/borrow.php) | PHP | 37 | 0 | 4 | 41 |
+| [books\removeBook.php](file:///d%3A/xampp/htdocs/es_library/api/books/removeBook.php) | PHP | 21 | 0 | 2 | 23 |
+| [books\return.php](file:///d%3A/xampp/htdocs/es_library/api/books/return.php) | PHP | 57 | 5 | 6 | 68 |
+| [db.php](file:///d%3A/xampp/htdocs/es_library/api/db.php) | PHP | 43 | 0 | 3 | 46 |
+| [tokenGen.php](file:///d%3A/xampp/htdocs/es_library/api/tokenGen.php) | PHP | 26 | 0 | 3 | 29 |

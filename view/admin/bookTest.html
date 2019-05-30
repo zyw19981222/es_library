@@ -33,6 +33,11 @@
         <input v-model='rId' type='text' placeholder="rId">
         <input v-model='bEachId_borrow' type='text' placeholder="bEachId">
         <button @click='borrow'>borrow</button>
+        <br><br><br><br> return
+        <br>
+        <input v-model='rId' type="text" placeholder='rid'>
+        <input v-model='bId' type='text' placeholder="bid">
+        <button @click='returnbook'>return</button>
     </div>
 
 </body>
@@ -48,6 +53,7 @@
             bEachId: '',
 
             rId: '',
+            bId: '',
             bEachId_borrow: '',
         },
         created() {
@@ -86,6 +92,19 @@
                 }).done((data) => {
                     data = JSON.parse(data);
                     console.log(data.validity);
+                    console.log(data.msg);
+                })
+            },
+            returnbook: function() {
+                var that = this;
+                $.post("../../api/books/return.php", {
+                    rId: that.rId,
+                    bId: that.bId
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    console.log(data.validity);
+                    console.log(data.fine);
+                    console.log(data.fId);
                     console.log(data.msg);
                 })
             }

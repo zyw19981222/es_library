@@ -14,6 +14,7 @@ $borrowId = 0;
 $fine = 0;
 $bEachId = 0;
 $fId = 0;
+$msg = '';
 //get target id and fine
 $sql_borrowId_fine = "SELECT bEachId, borrowId, cast(((($timestamp-renewal*7*86400)-borrowDate)/86400+0.001) as UNSIGNED) as fine from borrow where rId = '$rId' and bId = '$bId' and returnDate is NULL order by borrowDate asc";
 $id_fine = select($sql_borrowId_fine);
@@ -26,12 +27,16 @@ if ($id_fine) {
     $result = modify($sql_return);
     if ($result + 1) {
         $validity = $result + 1;
+        $msg="return succeed, no fine";
         //add fine record into fine
         if ($fine > 0) {
             $sql_fine = "INSERT INTO fine(rId,bId,bEachId,fAmount,fType,fDate) values('$rId','$bId','$bEachId','$fine',1,'$timestamp')";
             modify($sql_fine);
-            $sql_fId = "SELECT fId from fine where rId ='$rId' and rEachId = '$bEachId' and bId = '$bId' and fDate = '$timestamp' limit 1";
-            $fId = select($sql_fId)[0]['fId'];
+            $sql_fId = "SELECT fId, fAmount from fine where rId ='$rId' and rEachId = '$bEachId' and bId = '$bId' and fDate = '$timestamp' limit 1"; 
+            $result = select($sql_fId);
+            $fId = $result[0]['fId'];
+            $fAmount = $result[0]['fAmount'];
+            $msg = "return succeed, fId = $fId, fAmount = $fAmount";
         }
         //notify people appointed for this book
         $sql_appoint = "SELECT appointId from appointment where bId = '$bId' and borrowed is null and available is null order by appointDate asc";
@@ -50,11 +55,13 @@ if ($id_fine) {
             }
         }
     } else {
+        $msg = "return sql exec failed";
         $validity = 0;
     }
 } else {
+    $msg = "borrow record didnt exist";
     $validity = 0;
 }
 
 
-echo json_encode(['validity' => $validity, 'fine' => $fine, 'fId' => $fId]);
+echo json_encode(['validity' => $validity, 'fine' => $fine, 'fId' => $fId,'msg'=>$msg]);
