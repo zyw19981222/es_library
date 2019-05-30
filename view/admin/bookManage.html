@@ -39,7 +39,7 @@
                         <h3>库存图书</h3>
                         <div class="row">
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="seachBName">
+                                <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="searchBName">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary mr-3">Search</button>
                                 </div>
@@ -125,7 +125,7 @@
             bName: '',
             bAuthor: '',
             bPub: '',
-            num: 0,
+            num: '',
 
 
         },
@@ -146,7 +146,7 @@
 
             //  新增图书
             newBook: function() {
-                seen = !seen;
+                this.seen = true;
             },
 
 
