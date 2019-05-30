@@ -5,7 +5,7 @@ date_default_timezone_set('prc');
 
 $rId = $_POST['rId'];
 $bEachId = $_POST['bEachId'];
-$bId = substr($bEachId, 10);
+$bId = substr($bEachId, 5);
 
 $borrowDate = time();
 $validity = 0;

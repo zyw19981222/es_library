@@ -1,0 +1,59 @@
+<!-- test -->
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../res/vue/vue.js"></script>
+    <script src="../../res/jquery/jquery.js"></script>
+    <script src="../../res/swal2/sweetalert2.all.js"></script>
+    <script src="../../res/bootstrap/js/bootstrap.js"></script>
+    <script src="../../res/jquery/jquery.cookie.js"></script>
+    <!-- <script src="../res/iview/dist/iview.js"></script> -->
+    <!-- <link rel="stylesheet" href="../res/iview/dist/styles/iview.css"> -->
+    <link rel="stylesheet" href="../../res/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../../res/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+
+<body>
+    <div id="main">
+        <input v-model="bName" type="text">
+        <input v-model="bAuthor" type="text">
+        <input v-model="bPub" type="text">
+        <input v-model="num" type="number"> {{bName}} {{bAuthor}} {{bPub}} {{num}}
+        <button @click="input"></button>
+    </div>
+
+</body>
+<script>
+    let app = new Vue({
+        el: "#main",
+        data: {
+            bName: "",
+            bAuthor: "",
+            bPub: "",
+            num: 0,
+        },
+        created() {
+
+        },
+        methods: {
+            input: function() {
+                var that = this;
+                $.post("../../api/books/addNewBook.php", {
+                    bName: that.bName,
+                    bAuthor: that.bAuthor,
+                    bPub: that.bPub,
+                    num: that.num
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    console.log(data.validity);
+                    console.log(data.count);
+                    console.log(data.msg);
+                })
+            }
+        },
+    })
+</script>
