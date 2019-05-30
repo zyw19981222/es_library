@@ -25,6 +25,7 @@
         <input v-model="bPub" type="text" placeholder="pub">
         <input v-model="num" type="number"> {{bName}} {{bAuthor}} {{bPub}} {{num}}
         <button @click="add">add</button>
+        <button @click="search">search</button>
         <br><br><br><br> remove book<br>
         <input v-model="bEachId" type="text" placeholder="bEachId">
         <button @click='remove'>remove</button>
@@ -106,6 +107,20 @@
                     console.log(data.fine);
                     console.log(data.fId);
                     console.log(data.msg);
+                })
+            },
+            search: function() {
+                var that = this;
+                $.post("../../api/books/search.php", {
+                    bName: that.bName,
+                    bAuthor: that.bAuthor,
+                    bPub: that.bPub,
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    console.log(data.msg);
+                    data.books.forEach(each => {
+                        console.log(each);
+                    });
                 })
             }
         },
