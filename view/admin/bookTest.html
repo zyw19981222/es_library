@@ -19,11 +19,20 @@
 
 <body>
     <div id="main">
-        <input v-model="bName" type="text">
-        <input v-model="bAuthor" type="text">
-        <input v-model="bPub" type="text">
+        add book<br>
+        <input v-model="bName" type="text" placeholder="bookName">
+        <input v-model="bAuthor" type="text" placeholder="author">
+        <input v-model="bPub" type="text" placeholder="pub">
         <input v-model="num" type="number"> {{bName}} {{bAuthor}} {{bPub}} {{num}}
-        <button @click="input"></button>
+        <button @click="add">add</button>
+        <br><br><br><br> remove book<br>
+        <input v-model="bEachId" type="text" placeholder="bEachId">
+        <button @click='remove'>remove</button>
+        <br><br><br><br> borrow
+        <br>
+        <input v-model='rId' type='text' placeholder="rId">
+        <input v-model='bEachId_borrow' type='text' placeholder="bEachId">
+        <button @click='borrow'>borrow</button>
     </div>
 
 </body>
@@ -35,12 +44,17 @@
             bAuthor: "",
             bPub: "",
             num: 0,
+
+            bEachId: '',
+
+            rId: '',
+            bEachId_borrow: '',
         },
         created() {
 
         },
         methods: {
-            input: function() {
+            add: function() {
                 var that = this;
                 $.post("../../api/books/addBook.php", {
                     bName: that.bName,
@@ -51,6 +65,27 @@
                     data = JSON.parse(data);
                     console.log(data.validity);
                     console.log(data.count);
+                    console.log(data.msg);
+                })
+            },
+            remove: function() {
+                var that = this;
+                $.post("../../api/books/removeBook.php", {
+                    bEachId: that.bEachId
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    console.log(data.validity);
+                    console.log(data.msg);
+                })
+            },
+            borrow: function() {
+                var that = this;
+                $.post("../../api/books/borrow.php", {
+                    bEachId: that.bEachId_borrow,
+                    rId: that.rId,
+                }).done((data) => {
+                    data = JSON.parse(data);
+                    console.log(data.validity);
                     console.log(data.msg);
                 })
             }
