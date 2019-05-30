@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <div class="row">
                         <input class="col mt-3 ml-3 mr-3" type="text" class="form-control" placeholder="证件号" v-model="rId">
-                        <input class="col mt-3 mr-3" type="text" class="form-control" placeholder="书本编号" v-model="bId">
+                        <input class="col mt-3 mr-3" type="text" class="form-control" placeholder="书本编号" v-model="bEachId">
                         
                     </div>
                     <div class="float-right mt-3">
@@ -66,7 +66,7 @@
             //cookie
             uid: '',
             //b&w book
-            bId: '',
+            bEachId: '',
             rId: '',
             fine: '',
         },
@@ -81,7 +81,7 @@
                 var that = this;
                 $.post("../../api/books/borrow.php", {
                     rId: that.rId,
-                    bId: that.bId,
+                    bEachId: that.bEachId,
                 }).done((data) => {
                     data = JSON.parse(data);
                     //  不欠费，不延期，不多借
@@ -93,7 +93,7 @@
                             timer: 1000,
                         })
                         rId = "";
-                        bId = "";
+                        bEachId = "";
                     } else if (data.validity = -1) {
                         swal({
                             title: "借书失败！",
@@ -117,7 +117,7 @@
                 var that = this;
                 $.post("../../api/books/return.php", {
                     rId: that.rId,
-                    bId: that.bId,
+                    bId: that.bEachId,
                 }).done((data) => {
                     data = JSON.parse(data);
                     if (data.validity == 1) {
@@ -129,7 +129,7 @@
                             timer: 1000,
                         })
                         rId = "";
-                        bId = "";
+                        bEachId = "";
                     } else {
                         swal({
                             title: 'Error!',
