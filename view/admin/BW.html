@@ -93,26 +93,19 @@
                         })
                         rId = "";
                         bId = "";
-                    } else if (data.fine > 0) {
+                    } else if (data.validity = -1) {
                         swal({
-                            title: "您有欠费未缴！",
-                            text: '欠费' + this.fine,
+                            title: "借书失败！",
+                            text: '请确认罚金以及已借数量',
                             type: "warning",
                             showConfirmButton: false,
                             timer: 1000,
                         })
-                    } else if () {
+                    }else {
                         swal({
-                            title: "您已超出借阅范围，请先还书！",
-                            type: "warning",
+                            title: "Error！",
                             showConfirmButton: false,
-                            timer: 1000,
-                        })
-                    } else {
-                        swal({
-                            title: "您有延期书目未还！",
-                            type: "warning",
-                            showConfirmButton: false,
+                            type: 'error',
                             timer: 1000,
                         })
                     }
