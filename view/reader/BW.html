@@ -29,13 +29,16 @@
                         <a class="nav-link" href="BW.html"><i class="fa fa-hand-lizard-o"></i>借还管理</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="bookSearching.html"><i class="fa fa-book"></i>图书管理</a>
+                        <a class="nav-link" href="bookSearching.html"><i class="fa fa-book"></i>图书查询</a>
                     </li>
                 </ul>
+                <div class="ml-5">
+                    <a href="../edit/editInfo.html"><img src="http://static.runoob.com/images/mix/img_avatar.png" class="rounded-circle" alt="Cinque Terre" style="width:40px; height:40px;"><span>&nbsp;</span></a>
+                </div>
             </nav>
             <div class="card bg-muted" style="height: 657px ;">
                 <div class="card-header">
-                    <h3><strong>B&W</strong></h3>
+                    <h3><strong>自助借/还书</strong></h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -116,16 +119,25 @@
             },
             //还书
             returnBook: function() {
+                var that = this;
                 $.post("../../api/books/return.php", {
                     rId: $.cookie('uid'),
                     bId: that.bEachId,
                 }).done((data) => {
                     data = JSON.parse(data);
-                    if (data.validity == 1) {
+                    if (data.validity == 1 && data.fId == 0) {
                         swal({
                             title: "还书成功！",
-                            text: '欠费' + that.fine,
                             type: "success",
+                            showConfirmButton: false,
+                            timer: 1000,
+                        })
+                        rId = "";
+                        bEachId = "";
+                    } else if (data.fine > 0) {
+                        swal({
+                            type: "warning",
+                            title: '逾期罚款\n' + data.fine + '元',
                             showConfirmButton: false,
                             timer: 1000,
                         })
@@ -139,6 +151,7 @@
                             timer: 1000,
                         })
                     }
+
                 })
             },
 
