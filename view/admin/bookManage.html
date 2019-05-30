@@ -38,11 +38,6 @@
                     <div class="card-header">
                         <h3>库存图书</h3>
                         <div class="row">
-                            <!-- <input class="col-9 mt-3 ml-3 mr-3 " type="text" class="form-control" placeholder="证件号"
-                            v-model="rId">
-                        <button class="btn btn-primary btn-sm col-3 float-right" @click="search"><i
-                                class="fa fa-search"></i>查询图书</button>
-                                </div> -->
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control ml-3" placeholder="请输入查询图书" v-model="seachBName">
                                 <div class="input-group-append">
@@ -140,7 +135,7 @@
             //  查询图书
             search: function() {
                 $.post("../../api/books/adminSearchBook.php", {
-                    bName: this.seachBName,
+                    bName: this.searchBName,
                 }).done((data) => {
                     data = JSON.parse(data);
                     this.books = data;
